@@ -48,11 +48,11 @@ jobs:
           # Logging to the AKS cluster
           az aks get-credentials --resource-group rg-sajath-devops --name aks-sajath-devops-cluster
           
-          kubectl apply -f kubernetes/deployment.yaml
-          kubectl apply -f kubernetes/service.yaml
-          kubectl apply -f kubernetes/configmap.yaml
-          kubectl apply -f kubernetes/hpa.yaml
-          kubectl apply -f kubernetes/ingress.yaml
-          kubectl apply -f kubernetes/rbac.yaml
-          kubectl apply -f kubernetes/rolebinding.yaml
-          kubectl apply -f kubernetes/secret.yaml
+          kubectl apply -f Kubernetes-confs/deployment.yaml
+          kubectl apply -f Kubernetes-confs/service.yaml
+          kubectl apply -f Kubernetes-confs/configmap.yaml
+          kubectl apply -f Kubernetes-confs/hpa.yaml
+          kubectl apply -f Kubernetes-confs/ingress.yaml
+          kubectl apply -f Kubernetes-confs/rbac.yaml
+          kubectl apply -f Kubernetes-confs/rolebinding.yaml
+          kubectl apply -f Kubernetes-confs/secret.yaml
