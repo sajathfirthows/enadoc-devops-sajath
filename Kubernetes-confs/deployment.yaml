@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dotnet-app
+  template:
+    metadata:
+      labels:
+        app: dotnet-app
+    spec:
+      containers:
+      - name: dotnet-app
+        image: sajthaacr.azurecr.io/dotnet-app:v1
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: acr-auth  # Reference to the created secret

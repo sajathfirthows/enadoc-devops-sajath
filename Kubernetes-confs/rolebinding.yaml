@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: dotnet-app-role-binding
+  namespace: default
+subjects:
+  - kind: User
+    name: sajath
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: dotnet-app-role
+  apiGroup: rbac.authorization.k8s.io
