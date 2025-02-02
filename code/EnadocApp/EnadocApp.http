@@ -1,0 +1,6 @@
+@EnadocApp_HostAddress = http://localhost:5148
+
+GET {{EnadocApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
