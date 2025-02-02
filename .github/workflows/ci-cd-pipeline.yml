@@ -28,8 +28,9 @@ jobs:
 
       - name: Build and push Docker image to ACR
         run: |
-          docker build -t sajthaacr.azurecr.io/myapp:${{ github.sha }} .
+          docker build -t sajthaacr.azurecr.io/myapp:${{ github.sha }} -f code/Dockerfile code/
           docker push sajthaacr.azurecr.io/myapp:${{ github.sha }}
+
 
       - name: Install Azure CLI
         run: |
