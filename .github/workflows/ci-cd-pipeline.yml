@@ -1,0 +1,56 @@
+name: CI/CD Pipeline for aks-sajath-devops
+
+on:
+  push:
+    branches:
+      - main  
+  pull_request:
+    branches:
+      - main  
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Azure Container Registry (ACR)
+        uses: azure/docker-login@v1
+        with:
+          login-server: sajthaacr.azurecr.io 
+          username: ${{ secrets.AZURE_ACR_USERNAME }}
+          password: ${{ secrets.AZURE_ACR_PASSWORD }}
+
+      - name: Build and push Docker image to ACR
+        run: |
+          docker build -t sajthaacr.azurecr.io/myapp:${{ github.sha }} .
+          docker push sajthaacr.azurecr.io/myapp:${{ github.sha }}
+
+      - name: Set up Azure CLI
+        uses: azure/azure-cli-action@v1
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          app-id: ${{ secrets.AZURE_APP_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          password: ${{ secrets.AZURE_SECRET }}
+
+      - name: Deploy to AKS
+        run: |
+          # Logging to the AKS cluster
+          az aks get-credentials --resource-group rg-sajath-devops --name aks-sajath-devops-cluster
+          
+          kubectl apply -f kubernetes/deployment.yaml
+          kubectl apply -f kubernetes/service.yaml
+          kubectl apply -f kubernetes/configmap.yaml
+          kubectl apply -f kubernetes/hpa.yaml
+          kubectl apply -f kubernetes/ingress.yaml
+          kubectl apply -f kubernetes/rbac.yaml
+          kubectl apply -f kubernetes/rolebinding.yaml
+          kubectl apply -f kubernetes/secret.yaml
