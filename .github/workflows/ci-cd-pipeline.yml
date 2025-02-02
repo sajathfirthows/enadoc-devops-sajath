@@ -32,7 +32,7 @@ jobs:
           docker push sajthaacr.azurecr.io/myapp:${{ github.sha }}
 
       - name: Set up Azure CLI
-        uses: azure/azure-cli-action@v1
+        uses: azure/setup-azure@v3
 
       - name: Azure login
         uses: azure/login@v1
